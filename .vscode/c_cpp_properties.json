@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ubuntu/shreya_ws/install/slam_toolbox/include/**",
+        "/home/ubuntu/shreya_ws/install/project_1_group_2/include/**",
+        "/home/ubuntu/ros2_ws/install/examples_rclcpp_cbg_executor/include/**",
+        "/home/ubuntu/colcon_ws/install/realsense_gazebo_plugin/include/**",
+        "/home/ubuntu/colcon_ws/install/linkattacher_msgs/include/**",
+        "/home/ubuntu/colcon_ws/install/gazebo_ros2_control/include/**",
+        "/home/ubuntu/colcon_ws/install/ebot_docking/include/**",
+        "/opt/ros/humble/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

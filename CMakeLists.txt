@@ -12,6 +12,9 @@ find_package(xacro REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(ros2_control REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
 
 
 # uncomment the following section in order to fill in
@@ -40,6 +43,7 @@ install(
   #scripts/straight_line_controller.py
   #scripts/p_controller.py
   #scripts/laser_scan_relay.py
+  scripts/trajectory_planner_ros2.py
   DESTINATION lib/${PROJECT_NAME}
   )
 
