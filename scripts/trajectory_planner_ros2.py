@@ -1,134 +1,111 @@
 #!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
-import numpy as np
-from sympy import symbols, Matrix, cos, sin, pi, eye
-from sensor_msgs.msg import JointState
-from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from std_msgs.msg import Float64MultiArray
+import math
 
 
-class TrajectoryPlanner(Node):
+class JointVelocityNode(Node):
     def __init__(self):
-        super().__init__('trajectory_planner_node')
+        super().__init__('joint_velocity_node')
+        self.get_logger().info("Joint Velocity Node has started.")
 
-        # Publishers
-        self.joint_pub = self.create_publisher(JointState, '/joint_states', 10)
-        self.trajectory_pub = self.create_publisher(JointTrajectory, '/joint_trajectory', 10)
+        # Robot arm parameters (DH parameters)
+        self.a = [0, -0.6127, -0.57155, 0, 0, 0]  # Link lengths
+        self.d = [0.1807, 0, 0, 0.17415, 0.11985, 0.11655]  # Link offsets
 
-        # Robot configuration
-        self.joint_names = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6']
-        self.current_joint_angles = np.array([0.0, 0.1, -0.383, 0.283, 0.0001, 0.0])  # Initial angles
-        self.trajectory = []
+        # Create a publisher for joint positions
+        self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
 
-        # Define DH Parameters
-        self.dh_params = [
-            (0, pi / 2, 0.1833, symbols('theta_1')),
-            (-0.73731, 0, 0, symbols('theta_2')),
-            (-0.3878, 0, 0, symbols('theta_3')),
-            (0, pi / 2, 0.0955, symbols('theta_4')),
-            (0, -pi / 2, 0.1155, symbols('theta_5')),
-            (0, 0, 0.1218, symbols('theta_6')),
-        ]
+        # Target position (end-effector position in 3D space)
+        self.target_position = [1.0,0,0.6]  # Example (x, y, z)
 
-        # Generate trajectory
-        self.generate_trajectory()
+        # Timer to compute and publish joint positions
+        self.timer = self.create_timer(0.1, self.timer_callback)
+        self.get_logger().info(f"Target position set to: {self.target_position}")
 
-        # Timer for publishing
-        self.timer = self.create_timer(0.01, self.publish_joint_states)  # 100 Hz
+    def inverse_kinematics(self, target_position):
+        """
+        Manually calculate the inverse kinematics for a 6-DOF manipulator.
+        """
+        try:
+            x, y, z = target_position
 
-    def dh_matrix(self, a, alpha, d, theta):
-        """Returns the DH transformation matrix."""
-        return Matrix([
-            [cos(theta), -cos(alpha) * sin(theta), sin(alpha) * sin(theta), a * cos(theta)],
-            [sin(theta), cos(alpha) * cos(theta), -sin(alpha) * cos(theta), a * sin(theta)],
-            [0, sin(alpha), cos(alpha), d],
-            [0, 0, 0, 1]
-        ])
+            # Extract robot parameters
+            d1 = self.d[0]  # Base height
+            a2 = self.a[1]  # Length of the second link
+            a3 = self.a[2]  # Length of the third link
+            d4 = self.d[3]  # Offset to the wrist
 
-    def forward_kinematics(self, joint_angles):
-        """Compute the forward kinematics using DH parameters and joint angles."""
-        T = eye(4)  # Start with the identity matrix
-        for (a, alpha, d, theta), angle in zip(self.dh_params, joint_angles):
-            T *= self.dh_matrix(a, alpha, d, theta + angle)
-        return T
+            # Solve for theta_1
+            theta_1 = math.atan2(y, x)
 
-    def compute_jacobian(self, joint_angles):
-        """Compute the Jacobian matrix."""
-        T = eye(4)
-        Z_vectors = []
-        P_vectors = [Matrix([0, 0, 0])]  # Base position
-        joint_syms = symbols('theta_1:7')  # Symbolic joint angles
+            # Compute the wrist center position
+            wx = x - d4 * math.cos(theta_1)
+            wy = y - d4 * math.sin(theta_1)
+            wz = z - d1
 
-        for i, (a, alpha, d, theta) in enumerate(self.dh_params):
-            T *= self.dh_matrix(a, alpha, d, theta + joint_syms[i])
-            Z_vectors.append(T[:3, 2])
-            P_vectors.append(T[:3, 3])
+            # Distance from base to wrist center in the x-y plane
+            r = math.sqrt(wx**2 + wy**2)
 
-        P_end = P_vectors[-1]
-        J = Matrix.hstack(
-            *[Z.cross(P_end - P_vectors[i]) for i, Z in enumerate(Z_vectors)],
-            *Z_vectors
-        )
-        return np.array(J.subs({joint_syms[i]: angle for i, angle in enumerate(joint_angles)})).astype(float)
+            # Solve for theta_3 using the law of cosines
+            D = (r**2 + wz**2 - a2**2 - a3**2) / (2 * a2 * a3)
+            if abs(D) > 1.0:
+                raise ValueError("Target position is out of reach.")
+            theta_3 = math.atan2(-math.sqrt(1 - D**2), D)
 
-    def generate_trajectory(self):
-        """Generate a trajectory from start to end positions."""
-        start_pos = np.array([0.0, 0.0, 0.2])  # Example start position
-        end_pos = np.array([0.1, 0.1, 0.4])    # Example end position
-        steps = 100
+            # Solve for theta_2
+            phi_2 = math.atan2(wz, r)
+            phi_1 = math.atan2(a3 * math.sin(theta_3), a2 + a3 * math.cos(theta_3))
+            theta_2 = phi_2 - phi_1
 
-        # Generate linear trajectory
-        trajectory_positions = np.linspace(start_pos, end_pos, steps)
+            # Solve for theta_4, theta_5, theta_6 (orientation)
+            # Assuming no orientation change (simplified case)
+            theta_4 = 0
+            theta_5 = 0
+            theta_6 = 0
 
-        for target_position in trajectory_positions:
-            try:
-                # Compute the pseudoinverse of the Jacobian
-                inv_J = np.linalg.pinv(self.compute_jacobian(self.current_joint_angles))
+            # Combine all joint angles
+            joint_angles = [theta_1, theta_2, theta_3, theta_4, theta_5, theta_6]
+            return joint_angles
 
-                # Ensure the target_position matches the Jacobian input
-                target_velocity = target_position.reshape(-1, 1)  # Reshape to a column vector (3x1)
+        except Exception as e:
+            self.get_logger().error(f"Error in manual inverse kinematics: {str(e)}")
+            return None
 
-                # Perform matrix multiplication
-                joint_velocities = inv_J[:3, :] @ target_velocity  # Use only the first 3 rows of the Jacobian for position
-                joint_velocities = joint_velocities.flatten()  # Convert back to 1D for updates
+    def timer_callback(self):
+        self.get_logger().info(f"Attempting to reach target position: {self.target_position}")
 
-                self.current_joint_angles += joint_velocities * 0.01  # Small timestep
-                self.trajectory.append(self.current_joint_angles.tolist())
-            except np.linalg.LinAlgError as e:
-                self.get_logger().error(f"Jacobian computation failed: {str(e)}")
-                break
+        # Solve inverse kinematics
+        joint_angles = self.inverse_kinematics(self.target_position)
 
-    def publish_joint_states(self):
-        """Publish joint states for visualization."""
-        if not self.trajectory:
-            self.get_logger().info("Trajectory complete!")
-            return
+        if joint_angles:
+            self.get_logger().info(f"Computed joint angles: {joint_angles}")
 
-        # Create JointState message
-        joint_state_msg = JointState()
-        joint_state_msg.header.stamp = self.get_clock().now().to_msg()
-        joint_state_msg.name = self.joint_names
-        joint_state_msg.position = self.trajectory.pop(0)
-        self.joint_pub.publish(joint_state_msg)
+            # Ensure joint_angles is a proper list of floats
+            joint_angles = [float(angle) for angle in joint_angles]
 
-        # Publish trajectory point for compatibility
-        traj_msg = JointTrajectory()
-        traj_msg.joint_names = self.joint_names
-        point = JointTrajectoryPoint()
-        point.positions = joint_state_msg.position
-        point.time_from_start = rclpy.duration.Duration(seconds=0.01).to_msg()
-        traj_msg.points.append(point)
-        self.trajectory_pub.publish(traj_msg)
+            # Publish the joint angles
+            msg = Float64MultiArray()
+            msg.data = joint_angles
+            self.joint_position_pub.publish(msg)
+
+            self.get_logger().info(f"Published joint angles: {joint_angles}")
+
+            # Stop the timer as the goal has been reached
+            self.timer.cancel()
+            self.get_logger().info("Motion complete. Stopping timer.")
+        else:
+            self.get_logger().error("Failed to compute inverse kinematics.")
 
 
 def main(args=None):
     rclpy.init(args=args)
-    node = TrajectoryPlanner()
-    rclpy.spin(node)
-
-    node.destroy_node()
+    velocity_node = JointVelocityNode()
+    rclpy.spin(velocity_node)
+    velocity_node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
