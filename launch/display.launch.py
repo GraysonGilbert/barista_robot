@@ -19,7 +19,7 @@ def generate_launch_description():
     urdf_file = 'barista_robot.urdf'
     xacro_file = "barista_robot.urdf.xacro"
     #xacro_file = "box_bot.xacro"
-    package_description = "barista_robot"
+    package_description = "barista_robot" 
     use_urdf = False
     # Position and orientation
     # [X, Y, Z]
