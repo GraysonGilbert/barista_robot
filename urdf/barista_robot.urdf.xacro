@@ -815,7 +815,7 @@
     type="fixed">
     <origin
       xyz="0 0.0415 0.060233"
-      rpy="0 -1.57 0" />
+      rpy="0 0 0" />
     <parent
       link="link_6" />
     <child

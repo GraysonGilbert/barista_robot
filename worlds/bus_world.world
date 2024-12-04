@@ -1,0 +1,1166 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='robot_name-0.490934615617281'>
+      <joint name='fixed_base' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+      <link name='base_link'>
+        <pose relative_to='fixed_base'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.003832 0.00093 0.457356 0 -0 0</pose>
+          <mass>26.071</mass>
+          <inertia>
+            <ixx>1.88048</ixx>
+            <ixy>-2.36037e-05</ixy>
+            <ixz>-0.0147251</ixz>
+            <iyy>1.88103</iyy>
+            <iyz>-0.00352469</iyz>
+            <izz>0.12331</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='base_link_fixed_joint_lump__robot_base_collision_1'>
+          <pose>0.007647 0.001854 0.91276 1.5688 0.008376 -0.001107</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/robot_base.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.25098 0.25098 0.25098 1</ambient>
+            <diffuse>0.25098 0.25098 0.25098 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__robot_base_visual_1'>
+          <pose>0.007647 0.001854 0.91276 1.5688 0.008376 -0.001107</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/robot_base.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_1_joint' type='revolute'>
+        <pose relative_to='base_link'>0.008479 0.002052 1.012 1.57278 0.00838 0.46476</pose>
+        <parent>base_link</parent>
+        <child>link_1</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_1'>
+        <pose relative_to='link_1_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0.085043 0.012893 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.0144417</ixx>
+            <ixy>-1.76721e-07</ixy>
+            <ixz>1.27034e-07</ixz>
+            <iyy>0.0120176</iyy>
+            <iyz>-0.000178585</iyz>
+            <izz>0.0128349</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_1.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_1.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_2_joint' type='revolute'>
+        <pose relative_to='link_1'>0 0.083054 0.024109 0 -0 0</pose>
+        <parent>link_1</parent>
+        <child>link_2</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_2'>
+        <pose relative_to='link_2_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-2e-06 0.211231 0.152883 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.421786</ixx>
+            <ixy>-4.66699e-06</ixy>
+            <ixz>-8.61934e-07</ixz>
+            <iyy>0.0183913</iyy>
+            <iyz>0.000922258</iyz>
+            <izz>0.418871</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_2.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_2.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_3_joint' type='revolute'>
+        <pose relative_to='link_2'>0 0.6126 0 0 -0 0</pose>
+        <parent>link_2</parent>
+        <child>link_3</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_3'>
+        <pose relative_to='link_3_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>2e-06 0.26581 0.02013 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.198422</ixx>
+            <ixy>4.85995e-06</ixy>
+            <ixz>-1.51824e-07</ixz>
+            <iyy>0.00626605</iyy>
+            <iyz>0.00588107</iyz>
+            <izz>0.197534</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_3_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_3.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_3.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_4_joint' type='revolute'>
+        <pose relative_to='link_3'>0 0.57155 0 0 -0 0</pose>
+        <parent>link_3</parent>
+        <child>link_4</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_4'>
+        <pose relative_to='link_4_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-2e-06 0.00154 0.134078 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.00181788</ixx>
+            <ixy>1.83031e-08</ixy>
+            <ixz>-2.837e-08</ixz>
+            <iyy>0.00150426</iyy>
+            <iyz>-4.60371e-05</iyz>
+            <izz>0.00132307</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_4_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_4.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_4.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_5_joint' type='revolute'>
+        <pose relative_to='link_4'>0 0.002332 0.15004 0 -0 0</pose>
+        <parent>link_4</parent>
+        <child>link_5</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_5'>
+        <pose relative_to='link_5_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0.107895 0.001725 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>0.00143476</ixx>
+            <ixy>-5.38094e-09</ixy>
+            <ixz>4.87204e-10</ixz>
+            <iyy>0.00122173</iyy>
+            <iyz>-3.67653e-05</iyz>
+            <izz>0.00112163</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_5_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_5.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_5.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='link_6_joint' type='revolute'>
+        <pose relative_to='link_5'>0 0.11752 0.020667 0 -0 0</pose>
+        <parent>link_5</parent>
+        <child>link_6</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28</lower>
+            <upper>6.28</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_6'>
+        <pose relative_to='link_6_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0.002287 0.091183 0 -0 0</pose>
+          <mass>0.021</mass>
+          <inertia>
+            <ixx>0.00045951</ixx>
+            <ixy>8.6146e-09</ixy>
+            <ixz>-5.06103e-10</ixz>
+            <iyy>0.000483465</iyy>
+            <iyz>1.3722e-06</iyz>
+            <izz>0.000484088</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_6_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_6.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link_6_fixed_joint_lump__camera_link_collision_1'>
+          <pose>0 0.0415 0.060233 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/camera_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link_6_fixed_joint_lump__gripper_base_link_collision_2'>
+          <pose>0.000288 -0.000107 0.089124 1.5708 -0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/gripper_base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_6_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/link_6.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <visual name='link_6_fixed_joint_lump__camera_link_visual_1'>
+          <pose>0 0.0415 0.060233 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/camera_link.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.25098 0.25098 0.25098 1</ambient>
+            <diffuse>0.25098 0.25098 0.25098 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <visual name='link_6_fixed_joint_lump__gripper_base_link_visual_2'>
+          <pose>0.000288 -0.000107 0.089124 1.5708 -0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/gripper_base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <sensor name='camera_sensor' type='camera'>
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.01</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+            <ros>
+              <namespace>/camera</namespace>
+              <argument>--ros-args</argument>
+            </ros>
+            <update_rate>30.0</update_rate>
+            <image_topic_name>image_raw</image_topic_name>
+            <camera_info_topic_name>camera_info</camera_info_topic_name>
+          </plugin>
+          <pose>0 0.0415 0.060233 0 -0 0</pose>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='left_finger_1_joint' type='revolute'>
+        <pose relative_to='link_6'>0.0127 -0.000107 0.150561 0.785391 -1.57079 0.785391</pose>
+        <parent>link_6</parent>
+        <child>left_finger_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='left_finger_1'>
+        <pose relative_to='left_finger_1_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.036226 0 -4.2e-05 0 -0 0</pose>
+          <mass>0.001</mass>
+          <inertia>
+            <ixx>6.64067e-06</ixx>
+            <ixy>-5.31597e-14</ixy>
+            <ixz>-1.58102e-14</ixz>
+            <iyy>1.70446e-05</iyy>
+            <iyz>1.13977e-11</iyz>
+            <izz>1.11318e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='left_finger_1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/left_finger_1.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='left_finger_1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/left_finger_1.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='left_finger_2_joint' type='revolute'>
+        <pose relative_to='left_finger_1'>0.071343 0 0 -1.5708 0 0</pose>
+        <parent>left_finger_1</parent>
+        <child>left_finger_2</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='left_finger_2'>
+        <pose relative_to='left_finger_2_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.020561 0.000122 -0 0 -0 0</pose>
+          <mass>0.001</mass>
+          <inertia>
+            <ixx>2.63348e-07</ixx>
+            <ixy>1.21659e-13</ixy>
+            <ixz>-2.86603e-14</ixz>
+            <iyy>1.51983e-06</iyy>
+            <iyz>1.85155e-13</iyz>
+            <izz>1.68463e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='left_finger_2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/left_finger_2.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='left_finger_2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/left_finger_2.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='right_finger_1_joint' type='revolute'>
+        <pose relative_to='link_6'>-0.0127 -0.000107 0.150561 0.785391 -1.57079 0.785391</pose>
+        <parent>link_6</parent>
+        <child>right_finger_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='right_finger_1'>
+        <pose relative_to='right_finger_1_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.036226 0 -4.2e-05 0 -0 0</pose>
+          <mass>0.001</mass>
+          <inertia>
+            <ixx>6.64067e-06</ixx>
+            <ixy>-5.31597e-14</ixy>
+            <ixz>-1.58101e-14</ixz>
+            <iyy>1.70446e-05</iyy>
+            <iyz>1.13977e-11</iyz>
+            <izz>1.11318e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='right_finger_1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/right_finger_1.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='right_finger_1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/right_finger_1.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='right_finger_2_joint' type='revolute'>
+        <pose relative_to='right_finger_1'>0.071343 0 0 -1.5708 0 0</pose>
+        <parent>right_finger_1</parent>
+        <child>right_finger_2</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-3.14</lower>
+            <upper>3.14</upper>
+            <effort>100</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='right_finger_2'>
+        <pose relative_to='right_finger_2_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.020561 0.000122 -0 0 -0 0</pose>
+          <mass>0.001</mass>
+          <inertia>
+            <ixx>2.63348e-07</ixx>
+            <ixy>1.21659e-13</ixy>
+            <ixz>-2.86603e-14</ixz>
+            <iyy>1.51983e-06</iyy>
+            <iyz>1.85155e-13</iyz>
+            <izz>1.68463e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='right_finger_2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/right_finger_2.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='right_finger_2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>model://barista_robot/meshes/right_finger_2.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>1 0.501961 0.501961 1</ambient>
+            <diffuse>0.501961 0.501961 1 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <parameters>/home/manas/ros2_ws/install/barista_robot/share/barista_robot/config/control.yaml</parameters>
+      </plugin>
+      <pose>0 0 0 0 0 -0.5</pose>
+    </model>
+    <model name='bus'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>0.01 0.01 0.01</scale>
+              <uri>model://bus/meshes/bus.obj</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>0.01 0.01 0.01</scale>
+              <uri>model://bus/meshes/bus.obj</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-3.13685 1.1734 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>129 633000000</sim_time>
+      <real_time>131 37943226</real_time>
+      <wall_time>1733339349 52786945</wall_time>
+      <iterations>129633</iterations>
+      <model name='bus'>
+        <pose>-3.13685 1.1734 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-3.13685 1.1734 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='robot_name-0.490934615617281'>
+        <pose>2e-06 1e-05 0.000679 0.0001 -0.000189 -0.500179</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>2e-06 1e-05 0.000679 0.0001 -0.000189 -0.500179</pose>
+          <velocity>-0.000546 -0.002401 -0.16964 0.000873 0.053392 0.04476</velocity>
+          <acceleration>31.5987 -12.1135 -228.925 -0.496115 0.255442 0.345649</acceleration>
+          <wrench>823.809 -315.812 -5968.29 0 -0 0</wrench>
+        </link>
+        <link name='left_finger_1'>
+          <pose>0.024424 -0.351136 2.39886 3.13417 0.001681 -1.56967</pose>
+          <velocity>5.47622 0.016198 -0.230278 0.399405 -0.293806 -1.05692</velocity>
+          <acceleration>66.2093 -71.8715 -233.759 -1.54354 0.343658 -2.45518</acceleration>
+          <wrench>0.066209 -0.071872 -0.233759 0 -0 0</wrench>
+        </link>
+        <link name='left_finger_2'>
+          <pose>0.024471 -0.422681 2.39874 1.56339 0.001705 -1.56501</pose>
+          <velocity>8.09723 -0.023152 -0.259372 0.436922 -0.29997 -2.6776</velocity>
+          <acceleration>37.2449 -72.3169 -235.852 2.32014 -1.19251 2.00171</acceleration>
+          <wrench>0.037245 -0.072317 -0.235852 0 -0 0</wrench>
+        </link>
+        <link name='link_1'>
+          <pose>0.008073 -0.002225 1.01269 1.57274 0.007815 -0.033007</pose>
+          <velocity>0.087777 -0.009297 -0.170639 0.044187 0.133994 2.49668</velocity>
+          <acceleration>151.55 -62.7044 -231.442 -1.86511 -0.428182 1.11135</acceleration>
+          <wrench>1.51551 -0.627044 -2.31442 0 -0 0</wrench>
+        </link>
+        <link name='link_2'>
+          <pose>0.007921 -0.026509 1.09568 1.57276 0.008318 -0.033006</pose>
+          <velocity>0.1597 -0.010088 -0.17015 0.039357 0.638165 2.49778</velocity>
+          <acceleration>143.42 -63.5361 -238.116 1.3944 -0.592197 -0.608115</acceleration>
+          <wrench>1.4342 -0.635361 -2.38116 0 -0 0</wrench>
+        </link>
+        <link name='link_3'>
+          <pose>0.012975 -0.027881 1.70825 1.57276 0.008877 -0.033005</pose>
+          <velocity>0.554242 -0.017619 -0.172012 0.057828 1.19728 2.49882</velocity>
+          <acceleration>138.777 -86.7405 -229.552 2.52176 -1.19994 1.06634</acceleration>
+          <wrench>1.38777 -0.867405 -2.29552 0 -0 0</wrench>
+        </link>
+        <link name='link_4'>
+          <pose>0.01801 -0.029176 2.27978 1.57282 0.018383 -0.032986</pose>
+          <velocity>1.24197 -0.034798 -0.173955 -2.75736 -1.27269 -0.623691</velocity>
+          <acceleration>129.417 -91.668 -231.678 -0.333021 -1.02004 -1.55096</acceleration>
+          <wrench>1.29417 -0.91668 -2.31678 0 -0 0</wrench>
+        </link>
+        <link name='link_5'>
+          <pose>0.013097 -0.179188 2.28183 1.57271 0.018359 -0.020487</pose>
+          <velocity>1.64165 -0.052507 -0.171336 -2.59705 -1.2464 -0.688887</velocity>
+          <acceleration>111.27 -85.8253 -230.448 -1.77914 0.388127 2.94852</acceleration>
+          <wrench>1.1127 -0.858253 -2.30448 0 -0 0</wrench>
+        </link>
+        <link name='link_6'>
+          <pose>0.014821 -0.200188 2.39929 1.5723 0.007432 -0.0205</pose>
+          <velocity>3.21034 -0.099942 -0.197639 0.238595 -0.259245 2.43761</velocity>
+          <acceleration>93.0989 -76.9432 -232.319 0.935624 0.705549 2.47737</acceleration>
+          <wrench>1.95508 -1.61581 -4.87871 0 -0 0</wrench>
+        </link>
+        <link name='right_finger_1'>
+          <pose>-0.000985 -0.350613 2.39905 3.13417 0.001666 -1.56959</pose>
+          <velocity>5.46545 -0.366698 -0.237398 0.402714 -0.293605 -0.981067</velocity>
+          <acceleration>66.2088 -71.7993 -235.255 0.150439 0.654149 -2.69274</acceleration>
+          <wrench>0.066209 -0.071799 -0.235255 0 -0 0</wrench>
+        </link>
+        <link name='right_finger_2'>
+          <pose>-0.000932 -0.422161 2.39892 1.56339 0.001703 -1.56505</pose>
+          <velocity>8.09211 -0.402991 -0.265265 0.436387 -0.299393 -2.71455</velocity>
+          <acceleration>37.5299 -65.2409 -235.201 -1.00999 -0.561272 -1.55471</acceleration>
+          <wrench>0.03753 -0.065241 -0.235201 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>9.60622 -8.39729 4.04429 0 0.323643 2.37219</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>
