@@ -34,8 +34,8 @@ DESTINATION share/${PROJECT_NAME}/
 install(
   PROGRAMS
   launch/robot_description_publisher.py
-  scripts/joint_1_position.py
-  scripts/joint_2_position.py
+  scripts/fk_validation.py
+  scripts/ik_validation.py
   scripts/start_position_path.py
   scripts/joint_torque_control.py
   scripts/coffee_path.py
