@@ -2,6 +2,8 @@
 
 This README provides instructions for executing the package, including commands for simulation, operating the robot, and visualization. The project simulates an autonomous barista robot in Gazebo using ROS 2 Galactic, capable of making coffee through automated actions.
 
+For a detailed explanation of the math and process followed to complete this project, please refer to Group_2_final_report.pdf in the repository.
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
